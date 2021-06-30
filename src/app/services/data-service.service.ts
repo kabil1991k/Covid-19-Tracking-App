@@ -39,7 +39,7 @@ private globalDataUrl='https://raw.githubusercontent.com/CSSEGISandData/COVID-19
             raw[cs.country] = cs;
           }
         })
-        return <GlobalDataSummary>Object.values(raw);
+        return <GlobalDataSummary[]>Object.values(raw);
       })
     )
   }
