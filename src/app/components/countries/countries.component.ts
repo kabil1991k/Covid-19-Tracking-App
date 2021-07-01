@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DateWiseData } from 'src/app/models/date-wise-data';
 import { GlobalDataSummary } from 'src/app/models/gloabl-data';
 import { DataServiceService } from 'src/app/services/data-service.service';
 
@@ -8,15 +9,22 @@ import { DataServiceService } from 'src/app/services/data-service.service';
   styleUrls: ['./countries.component.css']
 })
 export class CountriesComponent implements OnInit {
-  totalConfirmed;
-  totalActive;
-  totalDeaths;
-  totalRecovered;
+  totalConfirmed = 0;
+  totalActive = 0;
+  totalDeaths = 0;
+  totalRecovered = 0;
+  selectedCountryData : DateWiseData[]; 
+  dateWiseData ;
 data : GlobalDataSummary[];
 countries :string[] = [];
   constructor(private service: DataServiceService) { }
 
   ngOnInit(): void {
+    this.service.getDateWiseData().subscribe((result)=>
+    {
+      this.dateWiseData=result;
+console.log(result);
+    })
     this.service.getGlobalData().subscribe(result=>{
 this.data=result;
 this.data.forEach(cs=>{
@@ -36,5 +44,7 @@ this.data.forEach(cs=>{
     this.totalRecovered=cs.recovered;
   }
 })
+this.selectedCountryData = this.dateWiseData[country]
+console.log(this.selectedCountryData);
   }
 }
